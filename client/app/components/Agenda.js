@@ -73,6 +73,14 @@ handleCellSelection(item){
 }
 handleItemEdit(item){
   console.log('handleItemEdit', item)
+  this.setState({ 
+    fullname: item.name,
+    service: item.service,
+    email: item.email,
+    recommended:item.recommended,
+    contact: item.contact,
+});
+  this.handleShow();
 }
 handleRangeSelection(item){
   console.log('handleRangeSelection', item)
@@ -171,20 +179,22 @@ getData(e){
        
        var startDate = new Date(element.startDate);
        var endDate =  new Date(element.endDate);
-       console.log('element',element, startDate, endDate);
        var item = {
          _id: element._id,
          name: element.fullname,
          startDateTime: startDate,
-         endDateTime   : endDate,
-         classes       : 'color-2'
+         endDateTime : endDate,
+         classes : 'color-2',
+         service: element.service,
+         email: element.email,
+         recommended:element.recommended,
+         contact: element.contact,
        }
        recentItems.push(item);
      });
     });
     recentItems = this.state.items.concat(recentItems);
     this.setState({items: recentItems});
-    console.log('getData',this.state, recentItems);
 }
 
 getValidationState() {
