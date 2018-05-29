@@ -22,6 +22,7 @@ componentWillReceiveProps(nextProps) {
 }
 
 getData(e){
+  console.log('is it here');
   axios.get('/reservation/getAll')
     .then(function(response) {
       e.setState({data: response.data});
@@ -45,6 +46,7 @@ render() {
       </thead>
       <tbody>
       {this.state.data.map(function(value,key){
+        console.log(value,key);
           return  <tr>
                     <td className='desc-col'>{value.fullname}</td>
                     <td className='button-col'>{value.service}</td>

@@ -3,6 +3,8 @@ import { ReactAgenda , ReactAgendaCtrl , guid } from 'react-agenda';//Modal
 import {Button, Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
 import Calendar from 'react-calendar';
+import moment from 'moment';
+
 require('moment/locale/en-au'); // this is important for traduction purpose
 var querystring = require('querystring');
 
@@ -45,11 +47,10 @@ export default class Agenda extends React.Component {
       startDate: new Date(),
       reservationStartDate: new Date(),
       fullname: '',
-      service: '',
+      service: 1,
       email: '',
       messageFromServer: '',
       show: false,
-      date:'',
       recommended:''
   }
     this.onClick = this.onClick.bind(this);
@@ -60,6 +61,7 @@ export default class Agenda extends React.Component {
     this.handleCellSelection = this.handleCellSelection.bind(this)
     this.handleItemEdit = this.handleItemEdit.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
 handleCellSelection(item){
@@ -80,9 +82,10 @@ handleClose() {
   this.setState({ 
       show: false,
       fullname: '',
-      service: 0,
+      service: 1,
       email: '',
-      reservationStartDate: '',
+      reservationStartDate: new Date(),
+      endDate: new Date(),
       recommended:'',
       contact:'',
       messageFromServer: ''
@@ -101,6 +104,8 @@ componentDidMount() {
       reservationStartDate: this.props.reservationStartDate,
       email: this.props.email
   });
+  this.getData();
+
 }
 
 onClick(e) {
@@ -127,29 +132,61 @@ handleTextChange(e) {
     this.setState({
         contact: e.target.value
     });
-}
-}
+  }
+    if (e.target.id == "recommended") {
+      this.setState({
+        recommended: e.target.value
+      });
+    }
+  }
 
 insertNewReservation(e) {
-  console.log('inserting reservation', e.state);
+  console.log('state before insert', e.state);
   axios.post('/reservation/insert',
   querystring.stringify({
-      fullname: e.state.fullname,
-      service: e.state.service,
-      email: e.state.email,
-      contact: e.state.contact,
-      recommended: e.state.recommended,
-      reservationStartDate: e.state.reservationStartDate
-  }), {
-      headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-      }
-  }).then(function(response) {
-      e.setState({
+    fullname: e.state.fullname,
+    service: e.state.service,
+    email: e.state.email,
+    contact: e.state.contact,
+    recommended: e.state.recommended,
+    reservationStartDate: e.state.reservationStartDate.toString(),
+    endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+  })
+  ,{
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    }).then(function(response) {
+      e.setState({    
           messageFromServer: response.data
       });
   });
 }
+
+getData(e){
+  var recentItems = []
+  axios.get('/reservation/getAll')
+    .then(function(response) {
+     response.data.forEach(element => {
+       
+       var startDate = new Date(element.startDate);
+       var endDate =  new Date(element.endDate);
+       console.log('element',element, startDate, endDate);
+       var item = {
+         _id: element._id,
+         name: element.fullname,
+         startDateTime: startDate,
+         endDateTime   : endDate,
+         classes       : 'color-2'
+       }
+       recentItems.push(item);
+     });
+    });
+    recentItems = this.state.items.concat(recentItems);
+    this.setState({items: recentItems});
+    console.log('getData',this.state, recentItems);
+}
+
 getValidationState() {
   const fullname = this.state.fullname;
   if (fullname > 10) return 'success';
@@ -183,12 +220,12 @@ getValidationState() {
             <Modal.Body>
                 <form>
                     <FormGroup
-                        controlId="formBasicText"
+                        id="formBasicText"
                         validationState={this.getValidationState()}
                     >
                         <ControlLabel>Full Name </ControlLabel>
                         <FormControl
-                            controlId='fullname'
+                            id='fullname'
                             type="text"
                             value={this.state.fullname}
                             placeholder="Enter fullname"
@@ -197,7 +234,7 @@ getValidationState() {
                         <br/>
                         <ControlLabel>Email</ControlLabel>
                           <FormControl
-                            controlId='email'
+                            id='email'
                             type="email"
                             value={this.state.email}
                             placeholder="Enter email"
@@ -206,7 +243,7 @@ getValidationState() {
                         <br/>
                         <ControlLabel>Contact/Tel/Room</ControlLabel>
                           <FormControl
-                            controlId='contact'
+                            id='contact'
                             type="text"
                             value={this.state.contact}
                             placeholder="Enter your room or your contact number"
@@ -215,7 +252,7 @@ getValidationState() {
                         <br/>
                         <ControlLabel>Service</ControlLabel>
                           <FormControl
-                            controlId='service'
+                            id='service'
                             componentClass="select"
                             value={this.state.service}
                             placeholder="Select a service"
@@ -227,6 +264,15 @@ getValidationState() {
                             <option value={3}>Manicure</option>
                             <option value={4}>Pedicure</option>
                         </FormControl>
+                        <br/>
+                        <ControlLabel>Recommended by</ControlLabel>
+                          <FormControl
+                            id='recommended'
+                            type="text"
+                            value={this.state.recommended}
+                            placeholder="Enter the name of the person in charge of this reservation"
+                            onChange={this.handleTextChange}
+                        />
                         <FormControl.Feedback />
                     </FormGroup>
                 </form>

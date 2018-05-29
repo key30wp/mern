@@ -10,15 +10,16 @@ router.get('/reservation', function(req, res){
 
 router.route('/insert')
 .post(function(req,res) {
- var reservation = new Reservation();
- reservation.fullname = req.body.fullname;
+  var reservation = new Reservation();
+  reservation.fullname = req.body.fullname;
   reservation.contact = req.body.contact;
   reservation.email = req.body.email;
-  reservation.startDate = req.body.startDateReservation;
+  reservation.startDate = req.body.reservationStartDate;
+  reservation.endDate = req.body.endDate;
   reservation.serviceId = req.body.service;
   reservation.recommended = req.body.recommended;
- // endDate: Date
-  console.log('RESERVATION', reservation);
+  // endDate: Date
+  console.log('RESERVATION', reservation, req.body);
   reservation.save(function(err) {
       if (err){
         res.send(err);}

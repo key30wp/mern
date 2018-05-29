@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var reservationSchema = new Schema({
   fullname: String,
-  serviceId: Schema.ObjectId,
+  serviceId: Number,
   contact: String,
   country:String,
   email: String,

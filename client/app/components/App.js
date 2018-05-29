@@ -20,7 +20,7 @@ export default class App extends React.Component {
 constructor() {
   super();
   this.state = { data: [],
-  currentTab:'User'};
+  currentTab:'Calendar'};
   this.getData = this.getData.bind(this);
   this.setCurrentTab = this.setCurrentTab.bind(this);
 }
@@ -34,7 +34,7 @@ componentWillReceiveProps(nextProps) {
 }
 
 getData(e){
-  axios.get('/getAll')
+  axios.get('/reservation/getAll')
     .then(function(response) {
       e.setState({data: response.data});
     });
@@ -51,9 +51,8 @@ setCurrentTab(value){
 render() {
   const TabConstant = <Tabs onChange={this.setCurrentTab}>
         <Tab
-          // icon={<MapsPersonPin />}
-          label="User"
-          value="User"
+          label="Calendar"
+          value="Calendar"
         />
         <Tab
           // icon={<FontIcon className="muidocs-icon-action-home"></FontIcon>}
@@ -65,9 +64,11 @@ render() {
           value="Service"
         />
         <Tab
-          label="Calendar"
-          value="Calendar"
+          // icon={<MapsPersonPin />}
+          label="User"
+          value="User"
         />
+        
       </Tabs>
       if(this.state.currentTab == 'User'){
         return (
