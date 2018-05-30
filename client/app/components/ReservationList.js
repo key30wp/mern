@@ -32,11 +32,11 @@ getData(e){
 render() {
   return (
 <div>
-    <h2>Reservaciones</h2>
+    <h2>Lista de Reservaciones</h2>
       <Table>
         <thead>
           <tr>
-            <th className='desc-col'>Full Name</th>
+            <th className='button-col'>Full Name</th>
             <th className='button-col'>Service</th>
             <th className='button-col'>Fecha y Hora</th>
             <th className='button-col'>Tel/Room</th>
@@ -48,7 +48,7 @@ render() {
       {this.state.data.map(function(value,key){
         console.log(value,key);
           return  <tr>
-                    <td className='desc-col'>{value.fullname}</td>
+                    <td className='button-col'>{value.fullname}</td>
                     <td className='button-col'>{value.service}</td>
                     <td className='button-col'>{value.startDate}</td>
                     <td className='button-col'>{value.contact}</td>

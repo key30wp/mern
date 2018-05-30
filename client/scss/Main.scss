@@ -56,6 +56,32 @@ margin:0px auto;
 .closebtn{
   float:right;
 }
+
+
+
+
+
+////////////
+
+$orange: #F06930;
+
 .menu-tab{
   padding: 0 1rem;
+}
+
+.naturalspa-tab {
+  background-color: $orange;
+}
+
+.carousel-inner .carousel-item{
+ max-height: 30rem;
+}
+
+.header{
+  font-size: 60px;
+  color: white;
+}
+
+.carousel-caption {
+  bottom: 10rem;
 }

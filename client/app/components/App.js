@@ -1,7 +1,6 @@
 //client/components/App.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Row, Col, Table, Jumbotron} from 'react-bootstrap';
 import axios from 'axios';
 import AddUser from './AddUser';
 import AddReservation from './AddReservation';
@@ -13,6 +12,7 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import Agenda from './Agenda';
+import CarouselComponent from './Carousel';
 
 
 export default class App extends React.Component {
@@ -49,24 +49,30 @@ setCurrentTab(value){
 }
 
 render() {
-  const TabConstant = <Tabs onChange={this.setCurrentTab}>
+  const TabConstant = 
+  <Tabs onChange={this.setCurrentTab}>
         <Tab
           label="Calendar"
           value="Calendar"
+          className="naturalspa-tab"
+          style={{backgroundColor:'#FD7F56'}}
         />
         <Tab
           // icon={<FontIcon className="muidocs-icon-action-home"></FontIcon>}
           label="Reservation"
           value="Reservation"
+          style={{backgroundColor:'#FD7F56'}}
         />
         <Tab
           label="Service"
           value="Service"
+          style={{backgroundColor:'#FD7F56'}}
         />
         <Tab
           // icon={<MapsPersonPin />}
           label="User"
           value="User"
+          style={{backgroundColor:'#FD7F56'}}
         />
         
       </Tabs>
@@ -74,13 +80,7 @@ render() {
         return (
           <MuiThemeProvider>
           <div className='container-fluid'>
-            <Jumbotron 
-            className="jumbotron-bg">
-              <Row>
-                <Col xs={11} md={11}><h1>Natural Spa Manager</h1></Col>
-                <Col xs={1} md={1}><Avatar>C</Avatar></Col>
-              </Row>
-            </Jumbotron>
+            <CarouselComponent/>
             {TabConstant}
             <div className="menu-tab">
               <h2>Users</h2>
@@ -95,10 +95,7 @@ render() {
       return (
         <MuiThemeProvider>
         <div className='container-fluid'>
-          <Jumbotron 
-          className="jumbotron-bg">
-            <h1>Natural Spa Manager</h1>
-          </Jumbotron>
+          <CarouselComponent/>
           {TabConstant}
           <div className="menu-tab">
             <h2>Reservations</h2>
@@ -113,10 +110,7 @@ render() {
       return (
         <MuiThemeProvider>
         <div className='container-fluid'>
-          <Jumbotron 
-          className="jumbotron-bg">
-            <h1>Natural Spa Manager</h1>
-          </Jumbotron>
+          <CarouselComponent/>
           {TabConstant}
           <div className="menu-tab">
             <h2>Services</h2>
@@ -130,10 +124,7 @@ render() {
       return (
         <MuiThemeProvider>
         <div className='container-fluid'>
-          <Jumbotron 
-          className="jumbotron-bg">
-            <h1>Natural Spa Manager</h1>
-          </Jumbotron>
+          <CarouselComponent/>
           {TabConstant}
           <div className="menu-tab">
           <h2>Calendario Semanal</h2>

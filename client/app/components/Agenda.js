@@ -10,29 +10,13 @@ var querystring = require('querystring');
 
 var colors= {
   'color-1':"rgba(102, 195, 131 , 1)" ,
-  "color-2":"rgba(242, 177, 52, 1)" ,
+  "color-2":"#f9b19a" ,
   "color-3":"rgba(235, 85, 59, 1)"
 }
 
 var now = new Date();
 
-var items = [
-  {
-   _id            :guid(),
-    name          : 'Meeting , dev staff!',
-    startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0),
-    endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0),
-    classes       : 'color-1'
-  },
-  {
-   _id            :guid(),
-    name          : 'Working lunch , Holly',
-    startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 11, 0),
-    endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 13, 0),
-    classes       : 'color-2 color-3'
-  },
-
-];
+var items = [];
 
 export default class Agenda extends React.Component {
   constructor(props){
@@ -51,9 +35,11 @@ export default class Agenda extends React.Component {
       email: '',
       messageFromServer: '',
       show: false,
-      recommended:''
+      recommended:'',
+      edit:false
   }
-    this.onClick = this.onClick.bind(this);
+    this.onClickSave = this.onClickSave.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.insertNewReservation = this.insertNewReservation.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -79,6 +65,7 @@ handleItemEdit(item){
     email: item.email,
     recommended:item.recommended,
     contact: item.contact,
+    edit:true
 });
   this.handleShow();
 }
@@ -96,7 +83,8 @@ handleClose() {
       endDate: new Date(),
       recommended:'',
       contact:'',
-      messageFromServer: ''
+      messageFromServer: '',
+      edit: false
   });
 }
 
@@ -116,8 +104,12 @@ componentDidMount() {
 
 }
 
-onClick(e) {
+onClickSave(e) {
   this.insertNewReservation(this);
+}
+
+onClickEdit(e) {
+  console.log('EDIT CLICKED');
 }
 
 handleTextChange(e) {
@@ -288,7 +280,8 @@ getValidationState() {
                 </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button bsStyle="success" onClick={this.onClick}>Save</Button>
+                <Button bsStyle="success" onClick={this.state.edit
+                  ? this.onClickEdit : this.onClickSave}>{this.state.edit ? 'Edit' :'Save'} </Button>
                 <Button onClick={this.handleClose}>Cancel</Button>
             </Modal.Footer>
         </Modal>
