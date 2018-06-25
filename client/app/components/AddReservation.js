@@ -120,16 +120,15 @@ class AddReservation extends React.Component {
                 <div>
                     <br/>
                     <Button onClick={this.handleShow} className="">
-                        + Add Reservation
+                        <i class="material-icons">
+                            add
+                        </i>
                     </Button>
                     <Modal show={this.state.show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                         <Modal.Title>Add Reservation</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {/* <Link to={{pathname: '/', search: '' }} style={{ textDecoration: 'none' }}>
-                                <Button bsStyle="danger" bsSize="sm" onClick={this.closeModal}><span className="closebtn glyphicon glyphicon-remove "></span></Button>
-                            </Link> */}
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"

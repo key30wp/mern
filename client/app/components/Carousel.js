@@ -54,7 +54,7 @@ class CarouselComponent extends Component {
                 <Mask overlay="black-light"></Mask>
               </View>
               <CarouselCaption>
-              <h1 className='header'>Natural Spa Manager</h1>
+              <h1 className='natural-spa__header'>Natural Spa Manager</h1>
               </CarouselCaption>
             </CarouselItem>
           </CarouselInner>

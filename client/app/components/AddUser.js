@@ -68,7 +68,7 @@ class AddUser extends React.Component {
         }),{
             headers: {
               "Content-Type": "application/x-www-form-urlencoded"
-            }
+            } 
           }).then(function(response) {
             console.log('response',response);
             e.setState({    
@@ -122,16 +122,15 @@ class AddUser extends React.Component {
                 <div>
                     <br/>
                     <Button onClick={this.handleShow} className="">
-                        + Add User
+                        <i class="material-icons">
+                            add
+                        </i>
                     </Button>
                     <Modal show={this.state.show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                         <Modal.Title>Add User</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {/* <Link to={{pathname: '/', search: '' }} style={{ textDecoration: 'none' }}>
-                                <Button bsStyle="danger" bsSize="sm" onClick={this.closeModal}><span className="closebtn glyphicon glyphicon-remove "></span></Button>
-                            </Link> */}
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"

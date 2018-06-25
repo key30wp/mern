@@ -4,6 +4,7 @@ import {Button, Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabe
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import {Link} from 'react-router-dom';
+// import 'material-design-icons';
 var querystring = require('querystring');
 
 class AddService extends React.Component {
@@ -119,16 +120,15 @@ class AddService extends React.Component {
                 <div>
                     <br/>
                     <Button onClick={this.handleShow} className="">
-                        + Add Service
+                        <i class="material-icons">
+                            add
+                        </i>
                     </Button>
                     <Modal show={this.state.show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                         <Modal.Title>Add Service</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {/* <Link to={{pathname: '/', search: '' }} style={{ textDecoration: 'none' }}>
-                                <Button bsStyle="danger" bsSize="sm" onClick={this.closeModal}><span className="closebtn glyphicon glyphicon-remove "></span></Button>
-                            </Link> */}
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"

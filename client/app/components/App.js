@@ -43,96 +43,76 @@ getData(e){
 setCurrentTab(value){
   this.setState({
     currentTab:value
-  })
-  console.log(this.state, value);
-  
+  }) 
 }
 
 render() {
-  const TabConstant = 
-  <Tabs onChange={this.setCurrentTab}>
-        <Tab
-          label="Calendar"
-          value="Calendar"
-          className="naturalspa-tab"
-          style={{backgroundColor:'#FD7F56'}}
-        />
-        <Tab
-          // icon={<FontIcon className="muidocs-icon-action-home"></FontIcon>}
-          label="Reservation"
-          value="Reservation"
-          style={{backgroundColor:'#FD7F56'}}
-        />
-        <Tab
-          label="Service"
-          value="Service"
-          style={{backgroundColor:'#FD7F56'}}
-        />
-        <Tab
-          // icon={<MapsPersonPin />}
-          label="User"
-          value="User"
-          style={{backgroundColor:'#FD7F56'}}
-        />
-        
-      </Tabs>
-      if(this.state.currentTab == 'User'){
-        return (
-          <MuiThemeProvider>
-          <div className='container-fluid'>
-            <CarouselComponent/>
-            {TabConstant}
-            <div className="menu-tab">
-              <h2>Users</h2>
-              <AddUser/>
-              <UserList/>
-            </div>
-          </div>
-          </MuiThemeProvider>
-      );
-    }
-    else if(this.state.currentTab == 'Reservation'){
-      return (
-        <MuiThemeProvider>
-        <div className='container-fluid'>
-          <CarouselComponent/>
-          {TabConstant}
-          <div className="menu-tab">
-            <h2>Reservations</h2>
-            <AddReservation/>
-            <ReservationList/>
-          </div>
-        </div>
-        </MuiThemeProvider>
-    );
+  var TabContainer;
+  console.log('App props state ', this.props);
+  if(this.state.currentTab == 'User'){
+    TabContainer =  <div className="natural-spa__menu-tab">
+      <h2>Users</h2>
+      <AddUser/>
+      <UserList/>
+    </div> 
+  } else if(this.state.currentTab == 'Reservation'){
+    TabContainer =  <div className="natural-spa__menu-tab">
+      <h2>Reservations</h2>
+      <AddReservation/>
+      <ReservationList/>
+    </div> 
   }
-    else if(this.state.currentTab == 'Service'){
-      return (
-        <MuiThemeProvider>
-        <div className='container-fluid'>
-          <CarouselComponent/>
-          {TabConstant}
-          <div className="menu-tab">
-            <h2>Services</h2>
-            <AddService/>
-          </div>
-        </div>
-        </MuiThemeProvider>
+   else if(this.state.currentTab == 'Service'){
+    TabContainer =  <div className="natural-spa__menu-tab">
+      <h2>Services</h2>
+      <AddService/>
+    </div>
+  }
+   else if(this.state.currentTab == 'Calendar'){
+    TabContainer =  <div className="natural-spa__menu-tab">
+      <h2>Calendario Semanal</h2>
+      <Agenda/>
+      {/* <Agenda addItem={this.props.actions.AddReservation}/> */}
+     </div> 
+  } else {
+    TabContainer =  <div className="natural-spa__menu-tab">
+    Nothing to show
+    </div>
+ }
+
+  const TabConstant = 
+    <Tabs onChange={this.setCurrentTab}>
+      <Tab
+        label="Calendar"
+        value="Calendar"
+        className="natural-spa__tab"
+        style={{backgroundColor:'#FD7F56'}}
+      />
+      <Tab
+        // icon={<FontIcon className="muidocs-icon-action-home"></FontIcon>}
+        label="Reservation"
+        value="Reservation"
+        style={{backgroundColor:'#FD7F56'}}
+      />
+      <Tab
+        label="Service"
+        value="Service"
+        style={{backgroundColor:'#FD7F56'}}
+      />
+      <Tab
+        label="User"
+        value="User"
+        style={{backgroundColor:'#FD7F56'}}
+      />
+    </Tabs>
+  return (
+    <MuiThemeProvider>
+    <div className='container-fluid natural-spa__container'>
+      <CarouselComponent/>
+      {TabConstant}
+      {TabContainer}
+    </div>
+    </MuiThemeProvider>
     );
-    }
-    else if(this.state.currentTab == 'Calendar'){
-      return (
-        <MuiThemeProvider>
-        <div className='container-fluid'>
-          <CarouselComponent/>
-          {TabConstant}
-          <div className="menu-tab">
-          <h2>Calendario Semanal</h2>
-          <Agenda/>
-          </div>
-        </div>
-        </MuiThemeProvider>
-    );
-    }
   }
 }
