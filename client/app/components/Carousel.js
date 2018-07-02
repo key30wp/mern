@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Carousel, CarouselCaption, CarouselControl, CarouselInner, CarouselItem, CarouselIndicators, CarouselIndicator, View, Mask, Container } from 'mdbreact';
 import {Jumbotron} from 'react-bootstrap';
+import Catalog from './Catalog';
 
 class CarouselComponent extends Component {
   constructor(props) {
@@ -46,15 +47,15 @@ class CarouselComponent extends Component {
         <Carousel 
           activeItem={this.state.activeItem}
           next={this.next}
-          className="z-depth-1">
+          className="z-depth-1 natural-spa__banner">
           <CarouselInner>
             <CarouselItem itemId="1">
               <View>
-                <img className="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg" alt="First slide" />
+                <img className="d-block w-100" src="../../assets/img/banner.png" alt="First slide" />             
                 <Mask overlay="black-light"></Mask>
               </View>
               <CarouselCaption>
-              <h1 className='natural-spa__header'>Natural Spa Manager</h1>
+              <Catalog></Catalog>
               </CarouselCaption>
             </CarouselItem>
           </CarouselInner>

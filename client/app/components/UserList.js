@@ -31,11 +31,10 @@ getData(e){
 render() {
   return (
 <div>
-    <h3>Lista de Usuarios</h3>
       <Table>
         <thead>
           <tr>
-            <th className='desc-col'>Name</th>
+            <th className='button-col'>Name</th>
             <th className='button-col'>Last name</th>
             <th className='button-col'>Email</th>
           </tr>
@@ -43,7 +42,7 @@ render() {
         <tbody>
         {this.state.users.map(function(value,key){
             return  <tr>
-                      <td className='desc-col'>{value.name}</td>
+                      <td className='button-col'>{value.name}</td>
                       <td className='button-col'>{value.lastname}</td>
                       <td className='button-col'>{value.email}</td>
                     </tr>;

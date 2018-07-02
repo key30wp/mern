@@ -1,37 +1,42 @@
 //client/components/Add.js
 import React from 'react';
-import {Button, Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Modal , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
-import Calendar from 'react-calendar';
-import {Link} from 'react-router-dom';
-// import 'material-design-icons';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Save from '@material-ui/icons/Save';
+import Radio from '@material-ui/core/Radio';
+
 var querystring = require('querystring');
 
 class AddService extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            name: '',
-            service: '',
-            email: '',
-            date: '',
+            serviceName: '',
+            serviceDuration: '',
+            serviceDescription: '',
+            enable: true,
             messageFromServer: '',
             show: false
         }
         this.onClick = this.onClick.bind(this);
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.insertNewUser = this.insertNewUser.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.insertNewService = this.insertNewService.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
     handleClose() {
         this.setState({ 
-            show: false,
-            name: '',
-            service: '',
-            email: '',
-            date: '',
-            messageFromServer: ''
+            serviceName: '',
+            serviceDuration: '',
+            serviceDescription: '',
+            enable: true,
+            messageFromServer: '',
+            show: false
         });
     }
 
@@ -41,59 +46,64 @@ class AddService extends React.Component {
 
     componentDidMount() {
         this.setState({
-            name: this.props.name
+            serviceName: this.props.serviceName
         });
         this.setState({
-            service: this.props.service
+            serviceDuration: this.props.serviceDuration
+        });
+        this.setState({
+            serviceDescription: this.props.serviceDescription
+        });
+        this.setState({
+            enable: this.props.enable
         });
     }
 
     onClick(e) {
-        this.insertNewUser(this);
+        this.insertNewService(this);
     }
 
-    insertNewUser(e) {
-        console.log(e);
-        console.log(e.state);
-        axios.post('/insert',
+    insertNewService(e) {
+        console.log('state before insert', e.state);
+        axios.post('/service/insert',
         querystring.stringify({
-            name: e.state.name,
-            service: e.state.service,
-            email: e.state.email,
-            date: e.state.date
-        }), {
+            name: e.state.serviceName,
+            duration: e.state.serviceDuration,
+            description: e.state.serviceDescription,
+            enable: e.state.enable
+        }),{
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        }).then(function(response) {
-            e.setState({
+              "Content-Type": "application/x-www-form-urlencoded"
+            } 
+          }).then(function(response) {
+            console.log('response',response);
+            e.setState({    
                 messageFromServer: response.data
             });
         });
+        this.handleClose();
     }
 
-    handleTextChange(e) {
-        console.log(e);
-        console.log(e.target);
-        console.log(e.target.value);
-        if (e.target.id == "name") {
+    handleChange(e) {
+        console.log(e.target.id, e.target.value);
+        if (e.target.id == "serviceName") {
             this.setState({
-                description: e.target.value
+                serviceName: e.target.value
             });
         }
-        if (e.target.id == "service") {
+        if (e.target.id == "serviceDuration") {
             this.setState({
-                amount: e.target.value
+                serviceDuration: e.target.value
             });
         }
-        if (e.target.id == "email") {
+        if (e.target.id == "serviceDescription") {
             this.setState({
-                description: e.target.value
+                serviceDescription: e.target.value
             });
         }
-        if (e.target.id == "date") {
+        if (e.target.id == "enable") {
             this.setState({
-                amount: e.target.value
+                enable: e.target.checked
             });
         }
     }
@@ -107,24 +117,18 @@ class AddService extends React.Component {
     }
 
     render() {
-        const popover = (
-            <Popover id="modal-popover" title="popover">
-                very popover. such engagement
-            </Popover>
-        );
-        const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
         if(this.state.messageFromServer == ''){
             return (
-            <div>
                 <div>
-                    <br/>
-                    <Button onClick={this.handleShow} className="">
-                        <i class="material-icons">
-                            add
-                        </i>
-                    </Button>
-                    <Modal show={this.state.show} onHide={this.handleClose}>
+                    <div className="section-header">
+                       <div className="add-button">
+                            <Button variant="fab" color="primary" aria-label="add" onClick={this.handleShow} className="add-modal">
+                                <AddIcon />
+                            </Button> 
+                       </div>
+                        <h2>Services</h2>
+                    </div>
+                    <Modal show={this.state.show} onHide={this.handleClose} className="add-modal">
                         <Modal.Header closeButton>
                         <Modal.Title>Add Service</Modal.Title>
                         </Modal.Header>
@@ -134,54 +138,77 @@ class AddService extends React.Component {
                                     controlId="formBasicText"
                                     validationState={this.getValidationState()}
                                 >
-                                    <ControlLabel>Full Name </ControlLabel>
+                                    <ControlLabel>Service name</ControlLabel>
                                     <FormControl
-                                        controlId='name'
+                                        id='serviceName'
                                         type="text"
-                                        value={this.state.name}
-                                        placeholder="Enter name"
-                                        onChange={this.handleTextChange}
+                                        value={this.state.serviceName}
+                                        placeholder="Enter a service name"
+                                        onChange={this.handleChange}
+                                        className="natural-spa__form-control"
                                     />
+                                    <ControlLabel>Duration per Session</ControlLabel>
+                                        30 min<Radio
+                                            id="serviceDuration"
+                                            checked={this.state.serviceDuration === '30'}
+                                            onChange={this.handleChange}
+                                            value="30"
+                                            name="radio-button-demo"
+                                            aria-label="30"
+                                        />
+                                        60 min<Radio
+                                            id="serviceDuration"
+                                            checked={this.state.serviceDuration === '60'}
+                                            onChange={this.handleChange}
+                                            value="60"
+                                            name="radio-button-demo"
+                                            aria-label="30"
+                                        />
+                                        90 min<Radio
+                                            id="serviceDuration"
+                                            checked={this.state.serviceDuration === '90'}
+                                            onChange={this.handleChange}
+                                            value="90"
+                                            name="radio-button-demo"
+                                            aria-label="30"
+                                        />
                                     <br/>
-                                    <ControlLabel>Email</ControlLabel>
+                                    <ControlLabel>Service description</ControlLabel>
                                      <FormControl
-                                        controlId='email'
-                                        type="email"
-                                        value={this.state.email}
-                                        placeholder="Enter last name"
-                                        onChange={this.handleTextChange}
+                                        id='serviceDescription'
+                                        type="textarea"
+                                        value={this.state.serviceDescription}
+                                        placeholder="Service Description (optional)"
+                                        onChange={this.handleChange}
+                                        className="natural-spa__form-control"
                                     />
-                                    <br/>
-                                    <ControlLabel>Service</ControlLabel>
-                                     <FormControl
-                                        controlId='service'
-                                        componentClass="select"
-                                        value={this.state.service}
-                                        placeholder="Select a service"
-                                        onChange={this.handleTextChange}
-                                    >
-                                        <option value="select">Masaje Sueco</option>
-                                        <option value="other">Masaje con chocoterapia</option>
-                                        <option value="other">Facial</option>
-                                        <option value="other">Manicure</option>
-                                        <option value="other">Pedicure</option>
-                                    </FormControl>
-
-                                    <br/>
-                                    <ControlLabel>Date</ControlLabel>
-                                     <Calendar></Calendar>
-                                    <br/>
+                                    <ControlLabel>Enable</ControlLabel>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                            id="enable"
+                                            checked={this.state.enable}
+                                            onChange={this.handleChange}
+                                            value="enable"
+                                            color="primary"
+                                            />
+                                        }
+                                        label="Enable"
+                                        />
                                     <FormControl.Feedback />
                                 </FormGroup>
                             </form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button bsStyle="success" onClick={this.onClick}>Save</Button>
+                            <Button variant="contained"  size="medium" bsStyle="success" onClick={this.onClick}>
+                                <Save className="save-icon" />
+                                Save
+                            </Button>
                             <Button onClick={this.handleClose}>Cancel</Button>
+
                         </Modal.Footer>
                     </Modal>
                 </div>
-            </div>
             )
         }
         else{
@@ -192,5 +219,5 @@ class AddService extends React.Component {
         )}
     }
 }
-
+// export default withStyles(styles)(AddService);
 export default AddService;

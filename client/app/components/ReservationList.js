@@ -32,7 +32,6 @@ getData(e){
 render() {
   return (
 <div>
-    <h2>Lista de Reservaciones</h2>
       <Table>
         <thead>
           <tr>

@@ -44,10 +44,11 @@ export default class Agenda extends React.Component {
     this.insertNewReservation = this.insertNewReservation.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleCellSelection = this.handleCellSelection.bind(this)
-    this.handleItemEdit = this.handleItemEdit.bind(this)
-    this.handleRangeSelection = this.handleRangeSelection.bind(this)
-    this.getData = this.getData.bind(this)
+    this.handleCellSelection = this.handleCellSelection.bind(this);
+    this.handleItemEdit = this.handleItemEdit.bind(this);
+    this.handleRangeSelection = this.handleRangeSelection.bind(this);
+    this.getData = this.getData.bind(this);
+    this.editReservation = this.editReservation.bind(this);
   }
 
 handleCellSelection(item){
@@ -60,14 +61,18 @@ handleCellSelection(item){
 handleItemEdit(item){
   console.log('handleItemEdit', item)
   this.setState({ 
+    id: item._id,
     fullname: item.name,
     service: item.service,
     email: item.email,
     recommended:item.recommended,
     contact: item.contact,
-    edit:true
+    edit:true,
+    reservationStartDate: item.startDateTime,
+    endDateTime: item.endDateTime,
+    startDate: item.startDateTime,
 });
-  this.handleShow();
+  this.handleClose();
 }
 handleRangeSelection(item){
   console.log('handleRangeSelection', item)
@@ -109,7 +114,7 @@ onClickSave(e) {
 }
 
 onClickEdit(e) {
-  console.log('EDIT CLICKED');
+  this.editReservation(this);
 }
 
 handleTextChange(e) {
@@ -140,8 +145,28 @@ handleTextChange(e) {
     }
   }
 
+editReservation(e){
+    axios.post('/reservation/update',
+      querystring.stringify({
+        _id: e.state.id,
+        fullname: e.state.fullname,
+        service: e.state.service,
+        email: e.state.email,
+        contact: e.state.contact,
+        recommended: e.state.recommended,
+        reservationStartDate: e.state.reservationStartDate.toString(),
+        endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+      }), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }).then(function(response) {
+      e.setState({
+        messageFromServer: response.data
+      });
+  });
+}
 insertNewReservation(e) {
-  console.log('state before insert', e.state);
   axios.post('/reservation/insert',
   querystring.stringify({
     fullname: e.state.fullname,
@@ -157,10 +182,12 @@ insertNewReservation(e) {
         'Content-Type': 'application/x-www-form-urlencoded'
     }
     }).then(function(response) {
-      e.setState({    
-          messageFromServer: response.data
-      });
+      console.log('response', response, 'this', this, e);
+      // if (response.status == 200) {   
+      // } 
   });
+  this.getData();
+  this.handleClose();
 }
 
 getData(e){
@@ -168,7 +195,6 @@ getData(e){
   axios.get('/reservation/getAll')
     .then(function(response) {
      response.data.forEach(element => {
-       
        var startDate = new Date(element.startDate);
        var endDate =  new Date(element.endDate);
        var item = {
@@ -199,6 +225,9 @@ getValidationState() {
   render() {
     return (
       <div>
+        <div className="section-header">
+          <h2>Agenda</h2>
+        </div>
         <ReactAgenda
           minDate={now}
           maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
@@ -215,7 +244,7 @@ getValidationState() {
           onItemEdit={this.handleItemEdit.bind(this)}
           onCellSelect={this.handleCellSelection.bind(this)}
           onRangeSelection={this.handleRangeSelection.bind(this)}/>
-          <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal show={this.state.show} onHide={this.handleClose} className="add-modal">
             <Modal.Header closeButton>
             <Modal.Title>Add Reservation</Modal.Title>
             </Modal.Header>

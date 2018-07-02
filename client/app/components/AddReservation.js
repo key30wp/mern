@@ -1,11 +1,17 @@
 //client/components/Add.js
 import React from 'react';
-import {Button, Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import { Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
 import {Link} from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import Save from '@material-ui/icons/Save';
+
 var querystring = require('querystring');
 
 class AddReservation extends React.Component {
@@ -26,6 +32,7 @@ class AddReservation extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
     handleClose() {
+        console.log('in');
         this.setState({ 
             show: false,
             fullname: '',
@@ -50,7 +57,9 @@ class AddReservation extends React.Component {
     }
 
     onClick(e) {
-        this.insertNewUser(this);
+        this.insertNewUser(e);
+        this.handleClose();
+        console.log('close modal');
     }
 
     insertNewUser(e) {
@@ -107,24 +116,20 @@ class AddReservation extends React.Component {
     }
 
     render() {
-        const popover = (
-            <Popover id="modal-popover" title="popover">
-                very popover. such engagement
-            </Popover>
-        );
-        const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
         if(this.state.messageFromServer == ''){
             return (
-            <div>
                 <div>
-                    <br/>
-                    <Button onClick={this.handleShow} className="">
-                        <i class="material-icons">
-                            add
-                        </i>
-                    </Button>
-                    <Modal show={this.state.show} onHide={this.handleClose}>
+                    <div className="section-header">
+                        <div className="add-button">
+                            <Button variant="fab" color="primary" aria-label="add" onClick={this.handleShow}>
+                                <AddIcon />
+                            </Button> 
+                        </div>
+                        <h2>
+                            Reservations
+                        </h2>
+                    </div>
+                    <Modal show={this.state.show} onHide={this.handleClose} className="add-modal">
                         <Modal.Header closeButton>
                         <Modal.Title>Add Reservation</Modal.Title>
                         </Modal.Header>
@@ -188,12 +193,14 @@ class AddReservation extends React.Component {
                             </form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button bsStyle="success" onClick={this.onClick}>Save</Button>
+                            <Button variant="contained" size="medium" bsStyle="success" onClick={this.onClick}>
+                                <Save className="save-icon" />
+                                Save
+                            </Button>
                             <Button onClick={this.handleClose}>Cancel</Button>
                         </Modal.Footer>
                     </Modal>
                 </div>
-            </div>
             )
         }
         else{

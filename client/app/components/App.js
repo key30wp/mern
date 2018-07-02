@@ -6,14 +6,12 @@ import AddUser from './AddUser';
 import AddReservation from './AddReservation';
 import AddService from './AddService';
 import UserList from './UserList';
+import ServiceList from './ServiceList';
 import ReservationList from './ReservationList';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
-import Avatar from 'material-ui/Avatar';
 import Agenda from './Agenda';
 import CarouselComponent from './Carousel';
-
 
 export default class App extends React.Component {
 
@@ -51,28 +49,24 @@ render() {
   console.log('App props state ', this.props);
   if(this.state.currentTab == 'User'){
     TabContainer =  <div className="natural-spa__menu-tab">
-      <h2>Users</h2>
       <AddUser/>
       <UserList/>
     </div> 
   } else if(this.state.currentTab == 'Reservation'){
     TabContainer =  <div className="natural-spa__menu-tab">
-      <h2>Reservations</h2>
       <AddReservation/>
       <ReservationList/>
     </div> 
   }
    else if(this.state.currentTab == 'Service'){
     TabContainer =  <div className="natural-spa__menu-tab">
-      <h2>Services</h2>
       <AddService/>
+      <ServiceList/>
     </div>
   }
    else if(this.state.currentTab == 'Calendar'){
     TabContainer =  <div className="natural-spa__menu-tab">
-      <h2>Calendario Semanal</h2>
       <Agenda/>
-      {/* <Agenda addItem={this.props.actions.AddReservation}/> */}
      </div> 
   } else {
     TabContainer =  <div className="natural-spa__menu-tab">
@@ -83,13 +77,12 @@ render() {
   const TabConstant = 
     <Tabs onChange={this.setCurrentTab}>
       <Tab
-        label="Calendar"
+        label="Agenda"
         value="Calendar"
         className="natural-spa__tab"
         style={{backgroundColor:'#FD7F56'}}
       />
       <Tab
-        // icon={<FontIcon className="muidocs-icon-action-home"></FontIcon>}
         label="Reservation"
         value="Reservation"
         style={{backgroundColor:'#FD7F56'}}

@@ -30,10 +30,13 @@ router.route('/insert')
 router.route('/update')
 .post(function(req, res) {
  const doc = {
-     name: req.body.name,
-     lastname: req.body.lastname,
-     email: req.body.email,
-     password: req.body.password
+  fullname: req.body.fullname,
+  contact: req.body.contact,
+  email: req.body.email,
+  startDate: req.body.reservationStartDate,
+  endDate: req.body.endDate,
+  serviceId: req.body.service,
+  recommended: req.body.recommended
  };
  console.log(doc);
   Reservation.update({_id: req.body._id}, doc, function(err, result) {

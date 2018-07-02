@@ -17,57 +17,34 @@ table {
 text-align: center;
 width:50px;
 }
+
 .button-center {
 text-align: center;
 }
-.Modal {
-  position: relative;
-  top: 250px;
-  left: 400px;
-  right: 20px;
-  bottom: 20px;
-  background-color: #F5F5F5;
-  width:500px;
-  border: 1px solid #000;
-  border-radius: 4px;
-  padding: 20px;
-}
-.Overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rebeccapurple;
-}
-.button-center {
-text-align: center;
-}
+
 label {
 display:inline-block;
-width:200px;
 margin-right:30px;
 text-align:right;
 }
+
 fieldset {
 border:none;
 margin:0px auto;
 }
+
 .closebtn {
   float:right;
 }
 
-
-
-
-
-////////////
+/*-------------------------------------------------*/
 
 $orange: #F06930;
+$orangeTransparent: rgba(240, 106, 48, 0.719);
 
 .natural-spa {
   &__menu-tab {
-    padding: 1rem;
+    padding: 6rem;
   }
   
   &__tab {
@@ -83,13 +60,90 @@ $orange: #F06930;
     padding-left: 0;
     padding-right: 0;
   }
+
+  &__banner {
+    .carousel-inner .carousel-item {
+      img {
+        width: 100%;
+      }
+    }
+     .carousel-caption {
+      bottom: 1rem;
+      right: -25rem;
+     }  
+  }
+
+  &__catalog {
+    .button {
+      color: white;
+      border-color: white;
+      font-size: 13px;
+      min-height: 60px;
+    }
+    .modal-dialog {
+      margin: 0; 
+      width: 100% !important;
+    }
+  }
+
+  &__services-banner {
+    .carousel-inner .carousel-item {
+      // height: auto;
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  &__form-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 
-.carousel-inner .carousel-item {
-   max-height: 30rem;
-  }
 
-  .carousel-caption {
-    bottom: 10rem;
+.section-header {
+  display: inline-flex;
+  border-bottom-width: 0.5px;
+  border-bottom-style: inset;
+  padding-bottom: 30px;
+  width: 100%;
+  
+  h2{
+    margin-top: 10px;
   }
+}
+.add-button {
+    padding-right: 50px; 
+}
+
+
+.modal-info {
+  .modal-dialog {
+    margin: 0; 
+    width: 100% !important;
+  }
+}
+.add-modal {
+  .modal{
+    position: relative;
+    top: 250px;
+    left: 400px;
+    right: 20px;
+    bottom: 20px;
+    background-color: rgba(240, 106, 48, 0.719)!important;
+    width:500px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 20px;
+  }
+}
+
+.table-row {
+  width: 100px;
+  text-align: center;
+  padding-top: 20px !important;
+}
+
 
