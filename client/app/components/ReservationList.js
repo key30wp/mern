@@ -3,7 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Table} from 'react-bootstrap';
 import axios from 'axios';
-import FontIcon from 'material-ui/FontIcon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
 
 export default class ReservationList extends React.Component {
 
@@ -35,24 +37,36 @@ render() {
       <Table>
         <thead>
           <tr>
+            <th className='button-col'>Edit</th>
             <th className='button-col'>Full Name</th>
             <th className='button-col'>Service</th>
             <th className='button-col'>Fecha y Hora</th>
             <th className='button-col'>Tel/Room</th>
             <th className='button-col'>Email</th>
             <th className='button-col'>In charge</th>
+            <th className='button-col'>Delete</th>
           </tr>
       </thead>
       <tbody>
       {this.state.data.map(function(value,key){
         console.log(value,key);
-          return  <tr>
+          return  <tr id={value._id}>
+                    <td className='table-row'>
+                      <IconButton aria-label="Edit">
+                        <EditIcon />
+                      </IconButton>
+                    </td>
                     <td className='button-col'>{value.fullname}</td>
                     <td className='button-col'>{value.service}</td>
                     <td className='button-col'>{value.startDate}</td>
                     <td className='button-col'>{value.contact}</td>
                     <td className='button-col'>{value.email}</td>
-                    <td className='button-col'>{value.service}</td>
+                    <td className='button-col'>{value.recommended}</td>
+                    <td className='table-row'>
+                      <IconButton aria-label="Delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </td>
                   </tr>;
         })}
         </tbody>
