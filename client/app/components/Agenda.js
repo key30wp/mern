@@ -71,8 +71,8 @@ handleItemEdit(item){
     reservationStartDate: item.startDateTime,
     endDateTime: item.endDateTime,
     startDate: item.startDateTime,
+    show: true
 });
-  this.handleClose();
 }
 handleRangeSelection(item){
   console.log('handleRangeSelection', item)
@@ -165,6 +165,8 @@ editReservation(e){
         messageFromServer: response.data
       });
   });
+  this.getData();
+  this.handleClose();
 }
 insertNewReservation(e) {
   axios.post('/reservation/insert',
@@ -183,8 +185,6 @@ insertNewReservation(e) {
     }
     }).then(function(response) {
       console.log('response', response, 'this', this, e);
-      // if (response.status == 200) {   
-      // } 
   });
   this.getData();
   this.handleClose();
