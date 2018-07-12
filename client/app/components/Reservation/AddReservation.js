@@ -1,15 +1,11 @@
 //client/components/Add.js
 import React from 'react';
-import { Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import { Modal, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
-import Calendar from 'react-calendar';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
-import {Link} from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import Icon from '@material-ui/core/Icon';
 import Save from '@material-ui/icons/Save';
 
 var querystring = require('querystring');

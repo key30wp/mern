@@ -2,7 +2,6 @@
 import React from 'react';
 import {Modal , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

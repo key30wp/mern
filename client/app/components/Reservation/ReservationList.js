@@ -1,6 +1,4 @@
-//client/components/App.js
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Table} from 'react-bootstrap';
 import axios from 'axios';
 import DeleteIcon from '@material-ui/icons/Delete';

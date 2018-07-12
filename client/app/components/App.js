@@ -2,16 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import AddUser from './AddUser';
-import AddReservation from './AddReservation';
-import AddService from './AddService';
-import UserList from './UserList';
-import ServiceList from './ServiceList';
-import ReservationList from './ReservationList';
+import AddUser from './User/AddUser';
+import AddReservation from './Reservation/AddReservation';
+import AddService from './Service/AddService';
+import UserList from './User/UserList';
+import ServiceList from './Service/ServiceList';
+import ReservationList from './Reservation/ReservationList';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Agenda from './Agenda';
-import CarouselComponent from './Carousel';
+import Agenda from './Reservation/Agenda';
+import CarouselComponent from './Main/Carousel';
 
 export default class App extends React.Component {
 
