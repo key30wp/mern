@@ -18,8 +18,6 @@ router.route('/insert')
   reservation.endDate = req.body.endDate;
   reservation.serviceId = req.body.service;
   reservation.recommended = req.body.recommended;
-  // endDate: Date
-  console.log('RESERVATION', reservation, req.body);
   reservation.save(function(err) {
       if (err){
         res.send(err);}
@@ -38,7 +36,6 @@ router.route('/update')
   serviceId: req.body.service,
   recommended: req.body.recommended
  };
- console.log(doc);
   Reservation.update({_id: req.body._id}, doc, function(err, result) {
       if (err)
         res.send(err);
@@ -47,8 +44,7 @@ router.route('/update')
 });
 
 router.get('/delete', function(req, res){
- var id = req.query.id;
- Reservation.find({_id: id}).remove().exec(function(err, Reservation) {
+ Reservation.find({_id: req.query.id}).remove().exec(function(err, result) {
   if(err)
    res.send(err)
   res.send('Reservation successfully deleted!');

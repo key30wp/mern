@@ -1,8 +1,7 @@
 import React from 'react';
-import { ReactAgenda , ReactAgendaCtrl , guid } from 'react-agenda';//Modal
-import {Button, Modal, Popover, Tooltip, OverlayTrigger , FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import { ReactAgenda} from 'react-agenda';
+import {Button, Modal,  FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
-import Calendar from 'react-calendar';
 import moment from 'moment';
 
 require('moment/locale/en-au'); // this is important for traduction purpose
@@ -46,20 +45,20 @@ export default class Agenda extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleCellSelection = this.handleCellSelection.bind(this);
     this.handleItemEdit = this.handleItemEdit.bind(this);
+    this.handleItemRemove = this.handleItemRemove.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.getData = this.getData.bind(this);
     this.editReservation = this.editReservation.bind(this);
+    this.deleteReservation = this.deleteReservation.bind(this);
   }
 
 handleCellSelection(item){
-  console.log('handleCellSelection',item)
   this.setState({
     reservationStartDate: new Date(item)
 });
   this.handleShow();
 }
 handleItemEdit(item){
-  console.log('handleItemEdit', item)
   this.setState({ 
     id: item._id,
     fullname: item.name,
@@ -74,7 +73,16 @@ handleItemEdit(item){
     show: true
 });
 }
-handleRangeSelection(item){
+
+handleItemRemove(itemsList,item){
+  this.setState({ 
+    id: item._id,
+  });
+  this.deleteReservation(this, item._id)
+}
+
+
+handleRangeSelection(item) {
   console.log('handleRangeSelection', item)
 }
 
@@ -106,7 +114,10 @@ componentDidMount() {
       email: this.props.email
   });
   this.getData();
+}
 
+componentWillReceiveProps(nextProps) {
+  this.getData();
 }
 
 onClickSave(e) {
@@ -190,6 +201,15 @@ insertNewReservation(e) {
   this.handleClose();
 }
 
+deleteReservation(e, id) {
+  if(id){
+    axios.get('/reservation/delete?id='+ id)
+      .then(function(response) {
+    });
+  }
+  
+}
+
 getData(e){
   var recentItems = []
   axios.get('/reservation/getAll')
@@ -242,6 +262,7 @@ getValidationState() {
           autoScale={false}
           fixedHeader={true}
           onItemEdit={this.handleItemEdit.bind(this)}
+          onItemRemove={this.handleItemRemove.bind(this)}
           onCellSelect={this.handleCellSelection.bind(this)}
           onRangeSelection={this.handleRangeSelection.bind(this)}/>
           <Modal show={this.state.show} onHide={this.handleClose} className="add-modal">
