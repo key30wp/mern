@@ -6,10 +6,14 @@ import 'babel-polyfill';
 import configureStore from './app/store/configureStore';  
 import { Provider } from 'react-redux';  
 import {loadReservations} from './app/actions/reservationActions';
+import { loadServices } from './app/actions/serviceActions';
+import { loadUsers } from './app/actions/userActions';
 // import { Router, browserHistory } from 'react-router'; 
 
 const store = configureStore();
 store.dispatch(loadReservations());
+store.dispatch(loadServices());
+store.dispatch(loadUsers());
 
 ReactDOM.render(
   <Provider store={store}>

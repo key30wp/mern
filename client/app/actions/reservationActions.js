@@ -1,15 +1,10 @@
-// import reservationService from '../services/reservationService';
 import * as types from './actionTypes';
 import axios from 'axios';
-import moment from 'moment';
 
 export function loadReservations() {  
     return function(dispatch) {
-
-        console.log('BEFORE reservation Actions/ getData');
         axios.get('/reservation/getAll').then(response => {
         var recentItems = [];
-        console.log('reservation Actions/ getData', response);
         response.data.forEach(element => {
           var startDate = new Date(element.startDate);
           var endDate =  new Date(element.endDate);
@@ -26,7 +21,6 @@ export function loadReservations() {
           }
           recentItems.push(item);
         });
-        console.log(recentItems);
         dispatch(loadReservationsSuccess(recentItems));
        }).catch(error => {
         throw(error);
@@ -34,8 +28,6 @@ export function loadReservations() {
     };
   }
 
-  export function loadReservationsSuccess(reservations) {  
-
-    console.log('reservation Actions/ Success', reservations);
-    return {type: types.LOAD_RESERVATIONS_SUCCESS, reservations};
-  }
+export function loadReservationsSuccess(reservations) {  
+return {type: types.LOAD_RESERVATIONS_SUCCESS, reservations};
+}

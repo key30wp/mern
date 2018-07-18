@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import AddUser from './User/AddUser';
 import AddReservation from './Reservation/AddReservation';
 import AddService from './Service/AddService';
@@ -17,23 +16,10 @@ constructor() {
   super();
   this.state = { data: [],
   currentTab:'Calendar'};
-  this.getData = this.getData.bind(this);
   this.setCurrentTab = this.setCurrentTab.bind(this);
 }
 
 componentDidMount() {
-  this.getData(this);
-}
-
-componentWillReceiveProps(nextProps) {
-  this.getData(this);
-}
-
-getData(e){
-  axios.get('/reservation/getAll')
-    .then(function(response) {
-      e.setState({data: response.data});
-    });
 }
 
 setCurrentTab(value){
@@ -44,7 +30,6 @@ setCurrentTab(value){
 
 render() {
   var TabContainer;
-  console.log('App props state ', this.props);
   if(this.state.currentTab == 'User'){
     TabContainer =  <div className="natural-spa__menu-tab">
       <AddUser/>

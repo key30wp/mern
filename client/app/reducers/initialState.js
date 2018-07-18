@@ -1,3 +1,5 @@
 export default {  
-    reservations: []
-  }
+    reservations: [],
+    users:[],
+    services: []
+}

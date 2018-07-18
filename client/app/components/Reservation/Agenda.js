@@ -5,10 +5,8 @@ import {Button, Modal,  FormGroup, ControlLabel, FormControl} from 'react-bootst
 import axios from 'axios';
 import moment from 'moment';
 import {connect} from 'react-redux';  
-import * as reservationActions from '../../actions/reservationActions';
-
-
 require('moment/locale/en-au'); // this is important for traduction purpose
+
 var querystring = require('querystring');
 
 var colors= {
@@ -22,24 +20,24 @@ var now = new Date();
 var items = [];
 class Agenda extends React.Component {
   constructor(props){
-  super(props);
-    this.state = {
-      items:items,
-      selected:[],
-      cellHeight:30,
-      locale:"en",
-      rowsPerHour:2,
-      numberOfDays:4,
-      startDate: new Date(),
-      reservationStartDate: new Date(),
-      fullname: '',
-      service: 1,
-      email: '',
-      messageFromServer: '',
-      show: false,
-      recommended:'',
-      edit:false
-  }
+    super(props);
+      this.state = {
+        items:items,
+        selected:[],
+        cellHeight:30,
+        locale:"en",
+        rowsPerHour:2,
+        numberOfDays:4,
+        startDate: new Date(),
+        reservationStartDate: new Date(),
+        fullname: '',
+        service: 1,
+        email: '',
+        messageFromServer: '',
+        show: false,
+        recommended:'',
+        edit:false
+    }
     this.onClickSave = this.onClickSave.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -116,10 +114,6 @@ componentDidMount() {
       email: this.props.email
   });
 }
-
-componentWillReceiveProps(nextProps) {
-}
-
 onClickSave(e) {
   this.insertNewReservation(this);
 }
@@ -166,7 +160,7 @@ editReservation(e){
         contact: e.state.contact,
         recommended: e.state.recommended,
         reservationStartDate: e.state.reservationStartDate.toString(),
-        endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+        endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()///service time
       }), {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -176,7 +170,6 @@ editReservation(e){
         messageFromServer: response.data
       });
   });
-  // this.getData();
   this.handleClose();
 }
 insertNewReservation(e) {
@@ -195,9 +188,7 @@ insertNewReservation(e) {
         'Content-Type': 'application/x-www-form-urlencoded'
     }
     }).then(function(response) {
-      console.log('response', response, 'this', this, e);
   });
-  // this.getData();
   this.handleClose();
 }
 
@@ -218,8 +209,14 @@ getValidationState() {
   return null;
 }
   render() {
-    console.log('TEST RENDER AGENDA PROPS', this.props)
-    console.log('TEST RENDER AGENDA STATE', this.state)
+    let serviceOptions;
+    if (this.props.services) {
+      serviceOptions = this.props.services.map((value,key) => <option value={value._id}>{value.name}</option>) 
+    }
+    else {
+      serviceOptions = <option>NO SERVICES</option>
+    }
+    console.log(serviceOptions,'Options')
     return (
       <div>
         <div className="section-header">
@@ -285,11 +282,7 @@ getValidationState() {
                             placeholder="Select a service"
                             onChange={this.handleTextChange}
                         >
-                            <option value={0}>Masaje Sueco</option>
-                            <option value={1}>Masaje con chocoterapia</option>
-                            <option value={2}>Facial</option>
-                            <option value={3}>Manicure</option>
-                            <option value={4}>Pedicure</option>
+                        {serviceOptions}
                         </FormControl>
                         <br/>
                         <ControlLabel>Recommended by</ControlLabel>
@@ -317,13 +310,15 @@ getValidationState() {
 }
 
 Agenda.propTypes = {
-  reservations: PropTypes.array.isRequired
+  reservations: PropTypes.array.isRequired,
+  services: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log(state, 'state at agenda');
+  console.log(state, 'state')
   return {
-    reservations: state.reservation
+    reservations: state.reservation,
+    services: state.service
   };
 } 
 
