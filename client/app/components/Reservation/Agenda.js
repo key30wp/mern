@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { ReactAgenda} from 'react-agenda';
 import {Button, Modal,  FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import axios from 'axios';
 import moment from 'moment';
+import {connect} from 'react-redux';  
+import * as reservationActions from '../../actions/reservationActions';
+
 
 require('moment/locale/en-au'); // this is important for traduction purpose
 var querystring = require('querystring');
@@ -16,8 +20,7 @@ var colors= {
 var now = new Date();
 
 var items = [];
-
-export default class Agenda extends React.Component {
+class Agenda extends React.Component {
   constructor(props){
   super(props);
     this.state = {
@@ -47,7 +50,6 @@ export default class Agenda extends React.Component {
     this.handleItemEdit = this.handleItemEdit.bind(this);
     this.handleItemRemove = this.handleItemRemove.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
-    this.getData = this.getData.bind(this);
     this.editReservation = this.editReservation.bind(this);
     this.deleteReservation = this.deleteReservation.bind(this);
   }
@@ -113,11 +115,9 @@ componentDidMount() {
       reservationStartDate: this.props.reservationStartDate,
       email: this.props.email
   });
-  this.getData();
 }
 
 componentWillReceiveProps(nextProps) {
-  this.getData();
 }
 
 onClickSave(e) {
@@ -176,7 +176,7 @@ editReservation(e){
         messageFromServer: response.data
       });
   });
-  this.getData();
+  // this.getData();
   this.handleClose();
 }
 insertNewReservation(e) {
@@ -197,7 +197,7 @@ insertNewReservation(e) {
     }).then(function(response) {
       console.log('response', response, 'this', this, e);
   });
-  this.getData();
+  // this.getData();
   this.handleClose();
 }
 
@@ -210,31 +210,6 @@ deleteReservation(e, id) {
   
 }
 
-getData(e){
-  var recentItems = []
-  axios.get('/reservation/getAll')
-    .then(function(response) {
-     response.data.forEach(element => {
-       var startDate = new Date(element.startDate);
-       var endDate =  new Date(element.endDate);
-       var item = {
-         _id: element._id,
-         name: element.fullname,
-         startDateTime: startDate,
-         endDateTime : endDate,
-         classes : 'color-2',
-         service: element.service,
-         email: element.email,
-         recommended:element.recommended,
-         contact: element.contact,
-       }
-       recentItems.push(item);
-     });
-    });
-    recentItems = this.state.items.concat(recentItems);
-    this.setState({items: recentItems});
-}
-
 getValidationState() {
   const fullname = this.state.fullname;
   if (fullname > 10) return 'success';
@@ -243,6 +218,8 @@ getValidationState() {
   return null;
 }
   render() {
+    console.log('TEST RENDER AGENDA PROPS', this.props)
+    console.log('TEST RENDER AGENDA STATE', this.state)
     return (
       <div>
         <div className="section-header">
@@ -253,9 +230,7 @@ getValidationState() {
           maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
           disablePrevButton={false}
           startDate={this.state.startDate}
-          cellHeight={this.state.cellHeight}
-          locale={this.state.locale}
-          items={this.state.items}
+          items={this.props.reservations}
           numberOfDays={this.state.numberOfDays}
           rowsPerHour={this.state.rowsPerHour}
           itemColors={colors}
@@ -340,3 +315,16 @@ getValidationState() {
     );
   }
 }
+
+Agenda.propTypes = {
+  reservations: PropTypes.array.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+  console.log(state, 'state at agenda');
+  return {
+    reservations: state.reservation
+  };
+} 
+
+export default connect(mapStateToProps)(Agenda);  

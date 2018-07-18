@@ -1,6 +1,4 @@
-//client/components/App.js
 import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import AddUser from './User/AddUser';
 import AddReservation from './Reservation/AddReservation';
