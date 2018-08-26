@@ -27,15 +27,15 @@ render() {
           <Table>
             <thead>
               <tr>
-                <th className='button-col'>Edit</th>
-                <th className='button-col'>Name</th>
-                <th className='button-col'>Service</th>
-                <th className='button-col'>Date / Time</th>
-                <th className='button-col'>Duration</th>
-                <th className='button-col'>Tel/Room</th>
-                <th className='button-col'>Email</th>
-                <th className='button-col'>In charge</th>
-                <th className='button-col'>Delete</th>
+                <th className='table-row'>Edit</th>
+                <th className='table-row'>Name</th>
+                <th className='table-row'>Service</th>
+                <th className='table-row'>Date / Time</th>
+                <th className='table-row'>Duration</th>
+                <th className='table-row'>Tel/Room</th>
+                <th className='table-row'>Email</th>
+                <th className='table-row'>In charge</th>
+                <th className='table-row'>Delete</th>
               </tr>
             </thead>
           <tbody>
@@ -48,13 +48,13 @@ render() {
                               <EditIcon />
                             </IconButton>
                           </td>
-                          <td className='button-col'>{value.name}</td>
-                          <td className='button-col'>{service[0].name}</td>
-                          <td className='button-col'>{moment(value.startDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a")}</td>
-                          <td className='button-col'>{service[0].duration}</td>
-                          <td className='button-col'>{value.contact}</td>
-                          <td className='button-col'>{value.email}</td>
-                          <td className='button-col'>{value.recommended}</td>
+                          <td className='table-row'>{value.name}</td>
+                          <td className='table-row'>{service[0].name}</td>
+                          <td className='table-row'>{moment(value.startDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a")}</td>
+                          <td className='table-row'>{service[0].duration}</td>
+                          <td className='table-row'>{value.contact}</td>
+                          <td className='table-row'>{value.email}</td>
+                          <td className='table-row'>{value.recommended}</td>
                           <td className='table-row'>
                             <IconButton aria-label="Delete">
                               <DeleteIcon />

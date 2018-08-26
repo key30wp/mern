@@ -37,11 +37,11 @@ render() {
       <Table>
         <thead>
           <tr>
-          <th className='button-col'>Edit</th>
-            <th className='button-col'>Name</th>
-            <th className='button-col'>Last name</th>
-            <th className='button-col'>Email</th>
-            <th className='button-col'>Delete</th>
+          <th className='table-row'>Edit</th>
+            <th className='table-row'>Name</th>
+            <th className='table-row'>Last name</th>
+            <th className='table-row'>Email</th>
+            <th className='table-row'>Delete</th>
           </tr>
       </thead>
         <tbody>
@@ -53,9 +53,9 @@ render() {
                   <EditIcon />
                 </IconButton>
               </td>
-              <td className='button-col'>{value.name}</td>
-              <td className='button-col'>{value.lastname}</td>
-              <td className='button-col'>{value.email}</td>
+              <td className='table-row'>{value.name}</td>
+              <td className='table-row'>{value.lastname}</td>
+              <td className='table-row'>{value.email}</td>
               <td className='table-row'>
                 <IconButton aria-label="Delete">
                   <DeleteIcon />

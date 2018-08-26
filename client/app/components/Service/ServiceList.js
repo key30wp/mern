@@ -36,11 +36,11 @@ class ServiceList extends React.Component {
         <Table>
           <thead>
             <tr>
-              <th className='button-col'>Edit</th>
-              <th className='button-col'>Name</th>
-              <th className='button-col'>Duration</th>
-              <th className='button-col'>Description</th>
-              <th className='button-col'>Delete</th>
+              <th className='table-row'>Edit</th>
+              <th className='table-row'>Name</th>
+              <th className='table-row'>Duration</th>
+              <th className='table-row'>Description</th>
+              <th className='table-row'>Delete</th>
               
             </tr>
         </thead>
