@@ -52,6 +52,7 @@ router.get('/delete', function(req, res){
 });
 
 router.get('/getAll',function(req, res) {
+  
  Reservation.find({},function(err, reservations) {
     if (err)
      res.send(err);

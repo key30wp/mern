@@ -28,7 +28,6 @@ class AddReservation extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
     handleClose() {
-        console.log('in');
         this.setState({ 
             show: false,
             fullname: '',
@@ -55,11 +54,9 @@ class AddReservation extends React.Component {
     onClick(e) {
         this.insertNewUser(e);
         this.handleClose();
-        console.log('close modal');
     }
 
     insertNewUser(e) {
-        console.log(e.state);
         axios.post('/reservation/insert',
         querystring.stringify({
             fullname: e.state.fullname,
@@ -78,9 +75,6 @@ class AddReservation extends React.Component {
     }
 
     handleTextChange(e) {
-        console.log(e);
-        console.log(e.target);
-        console.log(e.target.value);
         if (e.target.id == "fullname") {
             this.setState({
                 description: e.target.value

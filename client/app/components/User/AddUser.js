@@ -69,7 +69,6 @@ class AddUser extends React.Component {
     }
 
     insertNewUser(e) {
-        console.log('state before insert', e.state);
         axios.post('/user/insert',
         querystring.stringify({
             name: e.state.name,
@@ -81,7 +80,6 @@ class AddUser extends React.Component {
               "Content-Type": "application/x-www-form-urlencoded"
             } 
           }).then(function(response) {
-            console.log('response',response);
             e.setState({    
                 messageFromServer: response.data
             });

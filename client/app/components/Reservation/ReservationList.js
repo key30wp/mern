@@ -1,75 +1,86 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
-import axios from 'axios';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import {connect} from 'react-redux';  
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
-export default class ReservationList extends React.Component {
+class ReservationList extends React.Component {
 
-constructor() {
-  super();
-  this.state = { data: []};
-  this.getData = this.getData.bind(this);
+constructor(props) {
+  super(props)
+  this.state = { 
+    data: []
+  }
+  this.getServiceName = this.getServiceName.bind(this);
 }
 
-componentDidMount() {
-  this.getData(this);
-}
-
-componentWillReceiveProps(nextProps) {
-  this.getData(this);
-}
-
-getData(e){
-  console.log('is it here');
-  axios.get('/reservation/getAll')
-    .then(function(response) {
-      e.setState({data: response.data});
-    });
+getServiceName(id){
+  return this.props.services.filter(item => item._id == id);
 }
 
 render() {
   return (
-<div>
-      <Table>
-        <thead>
-          <tr>
-            <th className='button-col'>Edit</th>
-            <th className='button-col'>Full Name</th>
-            <th className='button-col'>Service</th>
-            <th className='button-col'>Fecha y Hora</th>
-            <th className='button-col'>Tel/Room</th>
-            <th className='button-col'>Email</th>
-            <th className='button-col'>In charge</th>
-            <th className='button-col'>Delete</th>
-          </tr>
-      </thead>
-      <tbody>
-      {this.state.data.map(function(value,key){
-        console.log(value,key);
-          return  <tr id={value._id}>
-                    <td className='table-row'>
-                      <IconButton aria-label="Edit">
-                        <EditIcon />
-                      </IconButton>
-                    </td>
-                    <td className='button-col'>{value.fullname}</td>
-                    <td className='button-col'>{value.service}</td>
-                    <td className='button-col'>{value.startDate}</td>
-                    <td className='button-col'>{value.contact}</td>
-                    <td className='button-col'>{value.email}</td>
-                    <td className='button-col'>{value.recommended}</td>
-                    <td className='table-row'>
-                      <IconButton aria-label="Delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </td>
-                  </tr>;
-        })}
-        </tbody>
-      </Table>
-</div>
+    <div>
+          <Table>
+            <thead>
+              <tr>
+                <th className='button-col'>Edit</th>
+                <th className='button-col'>Name</th>
+                <th className='button-col'>Service</th>
+                <th className='button-col'>Date / Time</th>
+                <th className='button-col'>Duration</th>
+                <th className='button-col'>Tel/Room</th>
+                <th className='button-col'>Email</th>
+                <th className='button-col'>In charge</th>
+                <th className='button-col'>Delete</th>
+              </tr>
+            </thead>
+          <tbody>
+          {
+            this.props.reservations.map((value,key) => {
+              var service = this.getServiceName(value.service);
+                return  <tr id={value._id}>
+                          <td className='table-row'>
+                            <IconButton aria-label="Edit">
+                              <EditIcon />
+                            </IconButton>
+                          </td>
+                          <td className='button-col'>{value.name}</td>
+                          <td className='button-col'>{service[0].name}</td>
+                          <td className='button-col'>{moment(value.startDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a")}</td>
+                          <td className='button-col'>{service[0].duration}</td>
+                          <td className='button-col'>{value.contact}</td>
+                          <td className='button-col'>{value.email}</td>
+                          <td className='button-col'>{value.recommended}</td>
+                          <td className='table-row'>
+                            <IconButton aria-label="Delete">
+                              <DeleteIcon />
+                            </IconButton>
+                          </td>
+                        </tr>;
+              })
+          }
+            </tbody>
+          </Table>
+    </div>
   );
 }
 }
+
+
+ReservationList.propTypes = {
+  reservations: PropTypes.array.isRequired,
+  services: PropTypes.array.isRequired
+}; 
+
+function mapStateToProps(state, ownProps) {
+  return {
+    reservations: state.reservation,
+    services: state.service
+  };
+} 
+
+export default connect(mapStateToProps)(ReservationList);  

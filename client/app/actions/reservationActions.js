@@ -14,7 +14,7 @@ export function loadReservations() {
             startDateTime: startDate,
             endDateTime : endDate,
             classes : 'color-2',
-            service: element.service,
+            service: element.serviceId,
             email: element.email,
             recommended:element.recommended,
             contact: element.contact,

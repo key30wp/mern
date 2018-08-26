@@ -44,7 +44,7 @@ $orangeTransparent: rgba(240, 106, 48, 0.719);
 
 .natural-spa {
   &__menu-tab {
-    padding: 6rem;
+    padding: 2rem;
   }
   
   &__tab {
@@ -147,4 +147,7 @@ $orangeTransparent: rgba(240, 106, 48, 0.719);
   margin: auto;
 }
 
-
+.agenda__cell {
+  //min-height: 2rem !important;
+  height: 30px !important;
+}

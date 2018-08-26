@@ -16,22 +16,23 @@ var colors= {
 }
 
 var now = new Date();
-
 var items = [];
+
 class Agenda extends React.Component {
+
   constructor(props){
     super(props);
       this.state = {
         items:items,
         selected:[],
-        cellHeight:30,
+        cellHeight:50,
         locale:"en",
         rowsPerHour:2,
         numberOfDays:4,
         startDate: new Date(),
         reservationStartDate: new Date(),
         fullname: '',
-        service: 1,
+        service: '',
         email: '',
         messageFromServer: '',
         show: false,
@@ -52,171 +53,174 @@ class Agenda extends React.Component {
     this.deleteReservation = this.deleteReservation.bind(this);
   }
 
-handleCellSelection(item){
-  this.setState({
-    reservationStartDate: new Date(item)
-});
-  this.handleShow();
-}
-handleItemEdit(item){
-  this.setState({ 
-    id: item._id,
-    fullname: item.name,
-    service: item.service,
-    email: item.email,
-    recommended:item.recommended,
-    contact: item.contact,
-    edit:true,
-    reservationStartDate: item.startDateTime,
-    endDateTime: item.endDateTime,
-    startDate: item.startDateTime,
-    show: true
-});
-}
-
-handleItemRemove(itemsList,item){
-  this.setState({ 
-    id: item._id,
-  });
-  this.deleteReservation(this, item._id)
-}
-
-
-handleRangeSelection(item) {
-  console.log('handleRangeSelection', item)
-}
-
-handleClose() {
-  this.setState({ 
-      show: false,
-      fullname: '',
-      service: 1,
-      email: '',
-      reservationStartDate: new Date(),
-      endDate: new Date(),
-      recommended:'',
-      contact:'',
-      messageFromServer: '',
-      edit: false
-  });
-}
-
-handleShow() {
-  this.setState({ show: true });
-}
-
-componentDidMount() {
-  this.setState({
-      fullname: this.props.fullname,
-      service: this.props.service,
-      contact: this.props.contact,
-      reservationStartDate: this.props.reservationStartDate,
-      email: this.props.email
-  });
-}
-onClickSave(e) {
-  this.insertNewReservation(this);
-}
-
-onClickEdit(e) {
-  this.editReservation(this);
-}
-
-handleTextChange(e) {
-  if (e.target.id == "fullname") {
-      this.setState({
-          fullname: e.target.value
-      });
-  }
-  if (e.target.id == "service") {
-      this.setState({
-          service: e.target.value
-      });
-  }
-  if (e.target.id == "email") {
-      this.setState({
-          email: e.target.value
-      });
-  }
-  if (e.target.id == "contact") {
+  handleCellSelection(item){
     this.setState({
-        contact: e.target.value
+      reservationStartDate: new Date(item)
+  });
+    this.handleShow();
+  }
+  handleItemEdit(item){
+    this.setState({ 
+      id: item._id,
+      fullname: item.name,
+      service: item.service,
+      email: item.email,
+      recommended:item.recommended,
+      contact: item.contact,
+      edit:true,
+      reservationStartDate: item.startDateTime,
+      endDateTime: item.endDateTime,
+      startDate: item.startDateTime,
+      show: true
     });
   }
-    if (e.target.id == "recommended") {
+
+  handleItemRemove(itemsList,item){
+    this.setState({ 
+      id: item._id,
+    });
+    this.deleteReservation(this, item._id)
+  }
+
+
+  handleRangeSelection(item) {
+    console.log('handleRangeSelection', item)
+  }
+
+  handleClose() {
+    this.setState({ 
+        show: false,
+        fullname: '',
+        service: 1,
+        email: '',
+        reservationStartDate: new Date(),
+        endDate: new Date(),
+        recommended:'',
+        contact:'',
+        messageFromServer: '',
+        edit: false
+    });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  componentDidMount() {
+    if(this.props){
       this.setState({
-        recommended: e.target.value
-      });
-    }
-  }
-
-editReservation(e){
-    axios.post('/reservation/update',
-      querystring.stringify({
-        _id: e.state.id,
-        fullname: e.state.fullname,
-        service: e.state.service,
-        email: e.state.email,
-        contact: e.state.contact,
-        recommended: e.state.recommended,
-        reservationStartDate: e.state.reservationStartDate.toString(),
-        endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()///service time
-      }), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      }).then(function(response) {
-      e.setState({
-        messageFromServer: response.data
-      });
-  });
-  this.handleClose();
-}
-insertNewReservation(e) {
-  axios.post('/reservation/insert',
-  querystring.stringify({
-    fullname: e.state.fullname,
-    service: e.state.service,
-    email: e.state.email,
-    contact: e.state.contact,
-    recommended: e.state.recommended,
-    reservationStartDate: e.state.reservationStartDate.toString(),
-    endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
-  })
-  ,{
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    }).then(function(response) {
-  });
-  this.handleClose();
-}
-
-deleteReservation(e, id) {
-  if(id){
-    axios.get('/reservation/delete?id='+ id)
-      .then(function(response) {
+        fullname: this.props.fullname,
+        service: this.props.service,
+        contact: this.props.contact,
+        reservationStartDate: this.props.reservationStartDate,
+        email: this.props.email
     });
+    }
+    
   }
-  
-}
+  onClickSave(e) {
+    this.insertNewReservation(this);
+  }
 
-getValidationState() {
-  const fullname = this.state.fullname;
-  if (fullname > 10) return 'success';
-  else if (fullname > 5) return 'warning';
-  else if (fullname > 0) return 'error';
-  return null;
-}
+  onClickEdit(e) {
+    this.editReservation(this);
+  }
+
+  handleTextChange(e) {
+    if (e.target.id == "fullname") {
+        this.setState({
+            fullname: e.target.value
+        });
+    }
+    if (e.target.id == "service") {
+        this.setState({
+            service: e.target.value
+        });
+    }
+    if (e.target.id == "email") {
+        this.setState({
+            email: e.target.value
+        });
+    }
+    if (e.target.id == "contact") {
+      this.setState({
+          contact: e.target.value
+      });
+    }
+      if (e.target.id == "recommended") {
+        this.setState({
+          recommended: e.target.value
+        });
+      }
+    }
+
+  editReservation(e){
+      axios.post('/reservation/update',
+        querystring.stringify({
+          _id: e.state.id,
+          fullname: e.state.fullname,
+          service: e.state.service,
+          email: e.state.email,
+          contact: e.state.contact,
+          recommended: e.state.recommended,
+          reservationStartDate: e.state.reservationStartDate.toString(),
+          endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()///service time
+        }), {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function(response) {
+        e.setState({
+          messageFromServer: response.data
+        });
+    });
+    this.handleClose();
+  }
+  insertNewReservation(e) {
+    axios.post('/reservation/insert',
+    querystring.stringify({
+      fullname: e.state.fullname,
+      service: e.state.service,
+      email: e.state.email,
+      contact: e.state.contact,
+      recommended: e.state.recommended,
+      reservationStartDate: e.state.reservationStartDate.toString(),
+      endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+    })
+    ,{
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }
+      }).then(function(response) {
+    });
+    this.handleClose();
+  }
+
+  deleteReservation(e, id) {
+    if(id){
+      axios.get('/reservation/delete?id='+ id)
+        .then(function(response) {
+      });
+    }
+    
+  }
+
+  getValidationState() {
+    const fullname = this.state.fullname;
+    if (fullname > 10) return 'success';
+    else if (fullname > 5) return 'warning';
+    else if (fullname > 0) return 'error';
+    return null;
+  }
   render() {
     let serviceOptions;
+    
     if (this.props.services) {
       serviceOptions = this.props.services.map((value,key) => <option value={value._id}>{value.name}</option>) 
     }
     else {
       serviceOptions = <option>NO SERVICES</option>
     }
-    console.log(serviceOptions,'Options')
     return (
       <div>
         <div className="section-header">
@@ -226,7 +230,6 @@ getValidationState() {
           minDate={now}
           maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
           disablePrevButton={false}
-          startDate={this.state.startDate}
           items={this.props.reservations}
           numberOfDays={this.state.numberOfDays}
           rowsPerHour={this.state.rowsPerHour}
@@ -236,7 +239,8 @@ getValidationState() {
           onItemEdit={this.handleItemEdit.bind(this)}
           onItemRemove={this.handleItemRemove.bind(this)}
           onCellSelect={this.handleCellSelection.bind(this)}
-          onRangeSelection={this.handleRangeSelection.bind(this)}/>
+          onRangeSelection={this.handleRangeSelection.bind(this)}
+          />
           <Modal show={this.state.show} onHide={this.handleClose} className="add-modal">
             <Modal.Header closeButton>
             <Modal.Title>Add Reservation</Modal.Title>
@@ -315,7 +319,6 @@ Agenda.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log(state, 'state')
   return {
     reservations: state.reservation,
     services: state.service

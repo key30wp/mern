@@ -10,13 +10,11 @@ router.get('/service', function(req, res){
 
 router.route('/insert')
 .post(function(req,res) {
-    console.log('SERV', req.body);
     var service = new Service();
     service.name = req.body.name;
     service.duration = req.body.duration;
     service.description = req.body.description;
     service.enable = req.body.enable;
-    console.log('SERV', service);
     service.save(function(err) {
         if (err){
         res.send(err);}
@@ -32,7 +30,6 @@ router.route('/update')
      duration: req.body.duration,
      enable: req.body.enable
  };
- console.log(doc);
   Service.update({_id: req.body._id}, doc, function(err, result) {
       if (err)
         res.send(err);

@@ -74,7 +74,6 @@ ServiceList.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log(state, 'state at agenda');
   return {
     services: state.services
   };

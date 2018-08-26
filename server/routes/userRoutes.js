@@ -15,7 +15,6 @@ router.route('/insert')
   user.lastname = req.body.lastname;
   user.email = req.body.email;
   user.password = req.body.password;
-  console.log('USER', user);
   user.save(function(err) {
       if (err){
         res.send(err);}
@@ -31,7 +30,6 @@ router.route('/update')
      email: req.body.email,
      password: req.body.password
  };
- console.log(doc);
   User.update({_id: req.body._id}, doc, function(err, result) {
       if (err)
         res.send(err);

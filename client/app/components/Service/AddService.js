@@ -75,7 +75,6 @@ class AddService extends React.Component {
               "Content-Type": "application/x-www-form-urlencoded"
             } 
           }).then(function(response) {
-            console.log('response',response);
             e.setState({    
                 messageFromServer: response.data
             });
