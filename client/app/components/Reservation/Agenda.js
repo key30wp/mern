@@ -5,9 +5,18 @@ import {Button, Modal,  FormGroup, ControlLabel, FormControl} from 'react-bootst
 import axios from 'axios';
 import moment from 'moment';
 import {connect} from 'react-redux';  
+// import actions from '../../actions/reservationActions';
+import actions from './../../actions/actionCreators';
+var bindActionCreators = require('redux').bindActionCreators;
 require('moment/locale/en-au'); // this is important for traduction purpose
 
 var querystring = require('querystring');
+
+// require('bootstrap/dist/css/bootstrap.min.css');
+// require('jquery');
+// require('jquery/dist/jquery.slim');
+// import { Router, browserHistory } from 'react-router'; 
+import 'bootstrap';
 
 var colors= {
   'color-1':"rgba(102, 195, 131 , 1)" ,
@@ -177,22 +186,25 @@ class Agenda extends React.Component {
     this.handleClose();
   }
   insertNewReservation(e) {
-    axios.post('/reservation/insert',
-    querystring.stringify({
-      fullname: e.state.fullname,
-      service: e.state.service,
-      email: e.state.email,
-      contact: e.state.contact,
-      recommended: e.state.recommended,
-      reservationStartDate: e.state.reservationStartDate.toString(),
-      endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
-    })
-    ,{
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-      }).then(function(response) {
-    });
+    // axios.post('/reservation/insert',
+    // querystring.stringify({
+    //   fullname: e.state.fullname,
+    //   service: e.state.service,
+    //   email: e.state.email,
+    //   contact: e.state.contact,
+    //   recommended: e.state.recommended,
+    //   reservationStartDate: e.state.reservationStartDate.toString(),
+    //   endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+    // })
+    // ,{
+    //   headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded'
+    //   }
+    //   }).then(function(response) {
+    // });
+    console.log(actions);
+    console.log(this.props.actions);
+    this.props.actions.insertReservation(e);
     this.handleClose();
   }
 
@@ -315,7 +327,8 @@ class Agenda extends React.Component {
 
 Agenda.propTypes = {
   reservations: PropTypes.array.isRequired,
-  services: PropTypes.array.isRequired
+  services: PropTypes.array.isRequired,
+  reservationReducer: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -325,4 +338,8 @@ function mapStateToProps(state, ownProps) {
   };
 } 
 
-export default connect(mapStateToProps)(Agenda);  
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(actions, dispatch) }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Agenda);  

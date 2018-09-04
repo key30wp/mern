@@ -29,5 +29,42 @@ export function loadReservations() {
   }
 
 export function loadReservationsSuccess(reservations) {  
-return {type: types.LOAD_RESERVATIONS_SUCCESS, reservations};
+  return {type: types.LOAD_RESERVATIONS_SUCCESS, reservations};
 }
+
+export function insertReservation(e) {  
+  console.log('actions insert', e);
+  return function(dispatch) {
+    axios.post('/reservation/insert',
+    querystring.stringify({
+      fullname: e.state.fullname,
+      service: e.state.service,
+      email: e.state.email,
+      contact: e.state.contact,
+      recommended: e.state.recommended,
+      reservationStartDate: e.state.reservationStartDate.toString(),
+      endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
+    })
+    ,{
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }
+      }).then(function(response) {
+      dispatch(insertReservationsSuccess(response));
+     }).catch(error => {
+      dispatch(insertReservationsError(error));
+    });
+  };
+}
+
+export function insertReservationsSuccess(reservations) {  
+  console.log('insert success', reservations);
+  return {type: types.INSERT_RESERVATIONS_SUCCESS, reservations};
+}
+
+export function insertReservationsError(error) {  
+  console.log('insert error', error);
+  return {type: types.INSERT_RESERVATIONS_ERROR, error};
+}
+
+
