@@ -9,14 +9,8 @@ import {connect} from 'react-redux';
 import actions from './../../actions/actionCreators';
 var bindActionCreators = require('redux').bindActionCreators;
 require('moment/locale/en-au'); // this is important for traduction purpose
-
 var querystring = require('querystring');
-
-// require('bootstrap/dist/css/bootstrap.min.css');
-// require('jquery');
-// require('jquery/dist/jquery.slim');
-// import { Router, browserHistory } from 'react-router'; 
-import 'bootstrap';
+// import 'bootstrap';
 
 var colors= {
   'color-1':"rgba(102, 195, 131 , 1)" ,
@@ -164,45 +158,10 @@ class Agenda extends React.Component {
     }
 
   editReservation(e){
-      axios.post('/reservation/update',
-        querystring.stringify({
-          _id: e.state.id,
-          fullname: e.state.fullname,
-          service: e.state.service,
-          email: e.state.email,
-          contact: e.state.contact,
-          recommended: e.state.recommended,
-          reservationStartDate: e.state.reservationStartDate.toString(),
-          endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()///service time
-        }), {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(function(response) {
-        e.setState({
-          messageFromServer: response.data
-        });
-    });
+    this.props.actions.editReservation(e);
     this.handleClose();
   }
   insertNewReservation(e) {
-    // axios.post('/reservation/insert',
-    // querystring.stringify({
-    //   fullname: e.state.fullname,
-    //   service: e.state.service,
-    //   email: e.state.email,
-    //   contact: e.state.contact,
-    //   recommended: e.state.recommended,
-    //   reservationStartDate: e.state.reservationStartDate.toString(),
-    //   endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()
-    // })
-    // ,{
-    //   headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded'
-    //   }
-    //   }).then(function(response) {
-    // });
-    console.log(actions);
     console.log(this.props.actions);
     this.props.actions.insertReservation(e);
     this.handleClose();

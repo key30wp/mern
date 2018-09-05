@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import {loadReservations} from './app/actions/reservationActions';
 import { loadServices } from './app/actions/serviceActions';
 import { loadUsers } from './app/actions/userActions';
-// import { Router, browserHistory } from 'react-router'; 
+require('bootstrap/dist/css/bootstrap.min.css');
 
 const store = configureStore();
 store.dispatch(loadReservations());

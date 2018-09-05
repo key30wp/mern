@@ -71,6 +71,40 @@ var actionCreators = {
       console.log('insert error', error);
       return {type: types.INSERT_RESERVATIONS_ERROR, error};
     },
+    editReservation: function(e) {  
+      console.log('actions insert', e);
+      return function(dispatch) {
+        axios.post('/reservation/update',
+        querystring.stringify({
+          _id: e.state.id,
+          fullname: e.state.fullname,
+          service: e.state.service,
+          email: e.state.email,
+          contact: e.state.contact,
+          recommended: e.state.recommended,
+          reservationStartDate: e.state.reservationStartDate.toString(),
+          endDate: moment(e.state.reservationStartDate).add(1, 'h').toDate().toString()///service time
+        }), {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function(response) {
+          dispatch(actionCreators.insertReservationsSuccess(response));
+        }).catch(error => {
+          dispatch(actionCreators.insertReservationsError(response));
+        });
+    };
+  },
+    
+    editReservationsSuccess: function(response) {  
+      console.log('edit success', response);
+      return {type: types.EDIT_RESERVATIONS_SUCCESS, response};
+    },
+    
+    editReservationsError: function(error) {  
+      console.log('edit error', error);
+      return {type: types.EDIT_RESERVATIONS_ERROR, error};
+    },
 }
 
 module.exports = actionCreators;
