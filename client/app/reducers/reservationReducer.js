@@ -7,8 +7,8 @@ export default function reservationReducer(state = initialState.reservations, ac
       console.log('reducer LOAD_RESERVATIONS_SUCCESS',action, action.reservations);
       return action.reservations
     case types.INSERT_RESERVATIONS_SUCCESS:
-      console.log('reducer INSERT_RESERVATIONS_SUCCESS',action, action.reservations);
-      return action.response
+      console.log('reducer INSERT_RESERVATIONS_SUCCESS',action, action.response);
+      return action.reservations
     default: action.reservations
       return state;
   }

@@ -13,5 +13,6 @@ export function loadServices() {
   }
 
   export function loadServicesSuccess(services) {  
+    console.log('services on action', services);
     return {type: types.LOAD_SERVICES_SUCCESS, services};
   }

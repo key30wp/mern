@@ -21,7 +21,12 @@ router.route('/insert')
   reservation.save(function(err) {
       if (err){
         res.send(err);}
-      res.send('Reservation successfully added!');
+      // res.send('Reservation successfully added!');
+      Reservation.find({},function(err, reservations) {
+        if (err)
+         res.send(err);
+        res.send(reservations);
+      });
   });
 })
 

@@ -162,18 +162,15 @@ class Agenda extends React.Component {
     this.handleClose();
   }
   insertNewReservation(e) {
-    console.log(this.props.actions);
     this.props.actions.insertReservation(e);
     this.handleClose();
   }
 
   deleteReservation(e, id) {
     if(id){
-      axios.get('/reservation/delete?id='+ id)
-        .then(function(response) {
-      });
+      console.log('delete reservation');
+      this.props.actions.deleteReservation(id);
     }
-    
   }
 
   getValidationState() {

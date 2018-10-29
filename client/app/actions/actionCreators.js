@@ -7,30 +7,30 @@ const querystring = require('querystring');
 
 var actionCreators = {
     loadReservations: function() {  
-        return function(dispatch) {
-            axios.get('/reservation/getAll').then(response => {
-            var recentItems = [];
-            response.data.forEach(element => {
-                var startDate = new Date(element.startDate);
-                var endDate =  new Date(element.endDate);
-                var item = {
-                _id: element._id,
-                name: element.fullname,
-                startDateTime: startDate,
-                endDateTime : endDate,
-                classes : 'color-2',
-                service: element.serviceId,
-                email: element.email,
-                recommended:element.recommended,
-                contact: element.contact,
-                }
-                recentItems.push(item);
-            });
-            dispatch(actionCreators.loadReservationsSuccess(recentItems));
-            }).catch(error => {
-            throw(error);
-            });
-        };
+      return function(dispatch) {
+          axios.get('/reservation/getAll').then(response => {
+          var recentItems = [];
+          response.data.forEach(element => {
+              var startDate = new Date(element.startDate);
+              var endDate =  new Date(element.endDate);
+              var item = {
+              _id: element._id,
+              name: element.fullname,
+              startDateTime: startDate,
+              endDateTime : endDate,
+              classes : 'color-2',
+              service: element.serviceId,
+              email: element.email,
+              recommended:element.recommended,
+              contact: element.contact,
+              }
+              recentItems.push(item);
+          });
+          dispatch(actionCreators.loadReservationsSuccess(recentItems));
+          }).catch(error => {
+          throw(error);
+          });
+      };
     },
     
     loadReservationsSuccess: function(reservations) {  
@@ -55,19 +55,19 @@ var actionCreators = {
               'Content-Type': 'application/x-www-form-urlencoded'
           }
           }).then(function(response) {
-          dispatch(actionCreators.insertReservationsSuccess(response));
+          dispatch(actionCreators.insertReservationSuccess(response));
          }).catch(error => {
-          dispatch(actionCreators.insertReservationsError(error));
+          dispatch(actionCreators.insertReservationError(error));
         });
       };
     },
     
-    insertReservationsSuccess: function(response) {  
+    insertReservationSuccess: function(response) {  
       console.log('insert success', response);
       return {type: types.INSERT_RESERVATIONS_SUCCESS, response};
     },
     
-    insertReservationsError: function(error) {  
+    insertReservationError: function(error) {  
       console.log('insert error', error);
       return {type: types.INSERT_RESERVATIONS_ERROR, error};
     },
@@ -89,21 +89,37 @@ var actionCreators = {
             "Content-Type": "application/x-www-form-urlencoded"
           }
         }).then(function(response) {
-          dispatch(actionCreators.insertReservationsSuccess(response));
+          dispatch(actionCreators.insertReservationSuccess(response));
         }).catch(error => {
-          dispatch(actionCreators.insertReservationsError(response));
+          dispatch(actionCreators.insertReservationError(response));
         });
-    };
-  },
+      };
+    },
     
-    editReservationsSuccess: function(response) {  
+    editReservationSuccess: function(response) {  
       console.log('edit success', response);
       return {type: types.EDIT_RESERVATIONS_SUCCESS, response};
     },
     
-    editReservationsError: function(error) {  
+    editReservationError: function(error) {  
       console.log('edit error', error);
       return {type: types.EDIT_RESERVATIONS_ERROR, error};
+    },
+
+    deleteReservation: function(id) {  
+      return function(dispatch) {
+        axios.get('/reservation/delete?id='+ id).then(response => {
+          dispatch(actionCreators.deleteReservationSuccess(response));
+        }).catch(error => {
+          console.log('error on delete', id);
+        throw(error);
+        });
+      };
+    },
+
+    deleteReservationSuccess: function(response) {  
+      console.log('delete success', response);
+      return {type: types.DELETE_RESERVATIONS_SUCCESS, response};
     },
 }
 
